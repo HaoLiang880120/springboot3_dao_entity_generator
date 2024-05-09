@@ -1,5 +1,7 @@
 package com.kryptoncell.command;
 
+import com.kryptoncell.db.DBFetcher;
+import com.kryptoncell.utils.JDBCHelper;
 import org.apache.commons.cli.*;
 
 import java.util.Arrays;
@@ -54,7 +56,8 @@ public final class CommandHelper {
         var dbPassword = Option.builder("password")
                 .longOpt("database-password")
                 .desc("数据库登陆密码")
-                .required(true)
+                .required(false)
+                .optionalArg(true)
                 .hasArg(true)
                 .numberOfArgs(1)
                 .type(String.class)
@@ -80,12 +83,18 @@ public final class CommandHelper {
                 .addOption(dbTables);
     }
 
-    public static DatabaseInfoDto parseCommand(Options options, String[] args) {
+    public static void parseCommand(Options options, String[] args) {
 
         var parser = new DefaultParser();
 
         try {
             var cmd = parser.parse(options, args);
+
+            var dbHost = cmd.getOptionValue("host");
+            var dbPort = Integer.parseInt(cmd.getOptionValue("port"));
+            var dbName = cmd.getOptionValue("database");
+            var dbUser = cmd.getOptionValue("user");
+            var dbPassword = cmd.getOptionValue("password");
 
             // 需要生成代码的表，如果-tables选项没有设置，则置为空列表
             List<String> tables = Collections.emptyList();
@@ -93,14 +102,21 @@ public final class CommandHelper {
                 tables = Arrays.stream(cmd.getOptionValue("tables").split(",")).toList();
             }
 
-            return new DatabaseInfoDto(
-                    cmd.getOptionValue("host"),
-                    Integer.parseInt(cmd.getOptionValue("port")),
-                    cmd.getOptionValue("database"),
-                    cmd.getOptionValue("user"),
-                    cmd.getOptionValue("password"),
-                    tables
-            );
+            // 将数据库相关参数赋值给JDBCHelper
+            JDBCHelper.dbHost = dbHost;
+            JDBCHelper.dbPort = dbPort;
+            JDBCHelper.dbName = dbName;
+            JDBCHelper.dbUser = dbUser;
+            JDBCHelper.dbPassword = dbPassword;
+
+            // 单独校验想要生成代码的表，校验通过则将要生成的表赋值给JDBCHelper
+            var allTables = DBFetcher.getAllTableNames();
+            if (tables.isEmpty()) {
+                JDBCHelper.tables = allTables;
+            } else {
+                DBFetcher.verifyTableExists(allTables, tables);
+                JDBCHelper.tables = tables;
+            }
 
         } catch (ParseException e) {
             throw new RuntimeException(e);
@@ -110,7 +126,7 @@ public final class CommandHelper {
     public static void printHelp(Options options) {
         new HelpFormatter().printHelp(
                 1000,
-                "java -jar xxx.jar -host 127.0.0.1 -port 3306 -database my_database [-tables t_user,t_image]",
+                "java -jar xxx.jar -host 127.0.0.1 -port 3306 -user db_user_name [-password 123445sf] - -database my_database [-tables t_user,t_image]",
                 "\n",
                 options,
                 "\n"

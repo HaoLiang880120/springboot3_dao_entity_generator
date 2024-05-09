@@ -1,17 +1,24 @@
 package com.kryptoncell.utils;
 
 import java.sql.*;
+import java.util.List;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 public final class JDBCHelper {
+    public static String dbHost;
+    public static int dbPort;
+    public static String dbName;
+    public static String dbUser;
+    public static String dbPassword;
+    public static List<String> tables;
 
     // 全局仅使用一个connection
     private static Connection connection;
 
     // 获取connection
-    public static Connection getConnection(String dbHost, int dbPort, String dbName, String dbUser, String dbPassword) {
+    public static Connection getConnection() {
         if (nonNull(connection)) {
             return connection;
         }
@@ -60,13 +67,29 @@ public final class JDBCHelper {
             return;
         }
 
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        synchronized (JDBCHelper.class) {
+            if (isNull(connection)) {
+                return;
+            }
+
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            connection = null;
         }
 
-        connection = null;
     }
 
+    public static String toPrintString() {
+        return "JDBCHelper{" +
+                "tables=" + tables +
+                ", dbPassword='" + dbPassword + '\'' +
+                ", dbUser='" + dbUser + '\'' +
+                ", dbName='" + dbName + '\'' +
+                ", dbPort=" + dbPort +
+                ", dbHost='" + dbHost + '\'' +
+                '}';
+    }
 }
