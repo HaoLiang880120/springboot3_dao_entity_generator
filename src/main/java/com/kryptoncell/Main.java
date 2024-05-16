@@ -1,6 +1,6 @@
 package com.kryptoncell;
 
-import com.kryptoncell.command.CommandHelper;
+import com.kryptoncell.utils.CommandHelper;
 import com.kryptoncell.utils.JDBCHelper;
 
 public class Main {

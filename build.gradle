@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'org.springframework.boot' version '3.2.5'
+    id 'io.spring.dependency-management' version '1.1.4'
 }
 
 group = 'com.kryptoncell'
@@ -16,12 +18,17 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.mysql:mysql-connector-j:8.4.0'
+    implementation 'org.springframework.boot:spring-boot-starter'
+//    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'com.mysql:mysql-connector-j'
+//    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'commons-cli:commons-cli:1.7.0'
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
 test {
     useJUnitPlatform()
+}
+
+test {
+    jvmArgs("-XX:+EnableDynamicAgentLoading", "-Xshare:off")
 }

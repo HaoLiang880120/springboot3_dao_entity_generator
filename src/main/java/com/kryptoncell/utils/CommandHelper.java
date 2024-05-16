@@ -1,7 +1,6 @@
-package com.kryptoncell.command;
+package com.kryptoncell.utils;
 
 import com.kryptoncell.db.DBFetcher;
-import com.kryptoncell.utils.JDBCHelper;
 import org.apache.commons.cli.*;
 
 import java.util.Arrays;

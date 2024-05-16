@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: "kcTool"
+    author: "Hao Liang"
+    version: "v1.0"
