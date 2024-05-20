@@ -14,6 +14,7 @@ public class Application {
         /* 将项目时区设置为UTC */
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 
+        /* 启动项目 */
         var application = new SpringApplication(Application.class);
         application.setBannerMode(Banner.Mode.LOG);
         application.setWebApplicationType(WebApplicationType.NONE);
