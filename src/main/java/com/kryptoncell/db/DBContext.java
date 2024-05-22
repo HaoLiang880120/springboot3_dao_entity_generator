@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
 
@@ -22,7 +23,7 @@ public class DBContext {
     private final List<String> wantGenTables = new ArrayList<>();
 
     /* 想要生成的表的列信息， 表名 => 列信息 键值对 */
-    private final Map<String, List<TableColumnMetadata>> wantGenTableColumns = new HashMap<>();
+    private final Map<String, List<TableColumnMetadata>> wantGenTableColumns = new LinkedHashMap<>();
 
     private final InformationSchemaDao informationSchemaDao;
 
@@ -120,6 +121,25 @@ public class DBContext {
                     this.informationSchemaDao.getColumns(this.wantGenDB, subList)
             );
         }
+
+        // 对每张表按照表名排序
+        var sorted = this.wantGenTableColumns
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+        // 同时每张表的列信息按照顺序进行排序
+        sorted.forEach(
+                (k, v) -> v.sort(Comparator.comparingInt(TableColumnMetadata::position))
+        );
+
+        this.wantGenTableColumns.clear();
+        this.wantGenTableColumns.putAll(sorted);
     }
 
     @SuppressWarnings("unused")
