@@ -17,18 +17,18 @@ repositories {
     mavenCentral()
 }
 
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.shell:spring-shell-dependencies:3.2.4"
-    }
-}
+//dependencyManagement {
+//    imports {
+//        mavenBom "org.springframework.shell:spring-shell-dependencies:3.2.4"
+//    }
+//}
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.shell:spring-shell-starter'
-//    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+//    implementation 'org.springframework.shell:spring-shell-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'com.mysql:mysql-connector-j'
-//    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'commons-cli:commons-cli:1.7.0'
 }
 
