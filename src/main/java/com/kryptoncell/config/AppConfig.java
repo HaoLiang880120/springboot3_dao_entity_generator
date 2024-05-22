@@ -16,6 +16,7 @@ public class AppConfig {
                                  @Value("${generate.db.port}") String dbPort,
                                  @Value("${generate.db.user}") String dbUsername,
                                  @Value("${generate.db.password}") String dbPassword) {
+
         var hikariConfig = new HikariConfig();
         hikariConfig.setDriverClassName("com.mysql.cj.jdbc.Driver");
         hikariConfig.setAutoCommit(Boolean.TRUE);
