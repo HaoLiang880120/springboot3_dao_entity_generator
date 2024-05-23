@@ -11,6 +11,8 @@ public class EntityFieldMetadata {
     private final String fieldComment; // 成员变量注释
     private final String fieldName; // 成员变量名
     private final String fieldJavaType; // 成员变量的java类型
+    private final String fieldGetterMethodName; // getter方法名
+    private final String fieldSetterMethodName; // setter方法名
     private final Boolean isFieldEnumType; // 成员变量是否是java的enum类型
     private final Boolean isFieldBooleanType; // 成员变量是否是java的boolean类型
 
@@ -20,6 +22,8 @@ public class EntityFieldMetadata {
         this.fieldJavaType = this.genFieldJavaType(columnMetadata.columnName(), columnMetadata.dataType());
         this.isFieldEnumType = this.checkFieldEnumType(columnMetadata.columnName(), columnMetadata.dataType());
         this.isFieldBooleanType = this.checkFieldBooleanType(columnMetadata.columnName(), columnMetadata.dataType());
+        this.fieldGetterMethodName = this.genFieldGetterMethodName(columnMetadata.columnName());
+        this.fieldSetterMethodName = this.genFieldSetterMethodName(columnMetadata.columnName());
     }
 
     /**
@@ -105,6 +109,14 @@ public class EntityFieldMetadata {
                 && (columnName.toLowerCase().startsWith("is_") || columnName.toLowerCase().startsWith("has_"));
     }
 
+    private String genFieldGetterMethodName(String columnName) {
+        return "get" + StringHelper.toCamelName(columnName, false);
+    }
+
+    private String genFieldSetterMethodName(String columnName) {
+        return "set" + StringHelper.toCamelName(columnName, false);
+    }
+
     @SuppressWarnings("unused")
     public String getFieldComment() {
         return fieldComment;
@@ -128,5 +140,15 @@ public class EntityFieldMetadata {
     @SuppressWarnings("unused")
     public Boolean getFieldBooleanType() {
         return isFieldBooleanType;
+    }
+
+    @SuppressWarnings("unused")
+    public String getFieldGetterMethodName() {
+        return fieldGetterMethodName;
+    }
+
+    @SuppressWarnings("unused")
+    public String getFieldSetterMethodName() {
+        return fieldSetterMethodName;
     }
 }

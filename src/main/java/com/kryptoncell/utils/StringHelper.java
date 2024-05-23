@@ -21,7 +21,11 @@ public final class StringHelper {
             }
 
             //将第一个字母大写
-            sb.append(str.substring(0, 1).toUpperCase()).append(str.substring(1));
+            sb.append(str.substring(0, 1).toUpperCase());
+
+            if (str.length() > 1) {
+                sb.append(str.substring(1));
+            }
         }
 
         var resultStr = sb.toString();

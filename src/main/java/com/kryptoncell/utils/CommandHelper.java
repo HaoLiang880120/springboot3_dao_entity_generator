@@ -68,19 +68,53 @@ public final class CommandHelper {
                 .type(String.class)
                 .build();
 
+        // 生成的java的包名
+        var genBaseJavaPackage = Option.builder("gen-base-package")
+                .longOpt("gen-base-java-package")
+                .desc("生成的代码的根包名")
+                .required(true)
+                .optionalArg(false)
+                .hasArg(true)
+                .numberOfArgs(1)
+                .type(String.class)
+                .build();
+
+        var genRemainTablePrefix = Option.builder("gen-remain-table-prefix")
+                .longOpt("gen-entity-name-remain-table-prefix")
+                .desc("生成的entity名是否保留表前缀")
+                .required(true)
+                .optionalArg(false)
+                .hasArg(true)
+                .numberOfArgs(1)
+                .type(String.class)
+                .build();
+
+        var genOutputDir = Option.builder("gen-output-dir")
+                .longOpt("gen-output-dir")
+                .desc("生成代码到哪个目录")
+                .required(true)
+                .optionalArg(false)
+                .hasArg(true)
+                .numberOfArgs(1)
+                .type(String.class)
+                .build();
+
         return new Options()
                 .addOption(dbHost)
                 .addOption(dbPort)
                 .addOption(dbName)
                 .addOption(dbUser)
                 .addOption(dbPassword)
-                .addOption(dbTables);
+                .addOption(dbTables)
+                .addOption(genBaseJavaPackage)
+                .addOption(genRemainTablePrefix)
+                .addOption(genOutputDir);
     }
 
     public static void printHelp(Options options) {
         new HelpFormatter().printHelp(
                 1000,
-                "java -jar xxx.jar -host 127.0.0.1 -port 3306 -user db_user_name [-password 123445sf] -database my_database [-tables t_user,t_image]",
+                "java -jar xxx.jar -host 127.0.0.1 -port 3306 -user db_user_name [-password 123445sf] -database my_database [-tables t_user,t_image] -gen-base-package com.package.name -gen-remain-table-prefix true -gen-output-dir /Users/Tao123/Downloads/",
                 "\n",
                 options,
                 "\n"

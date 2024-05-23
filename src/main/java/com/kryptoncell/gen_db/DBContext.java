@@ -25,6 +25,9 @@ public class DBContext {
     /* 想要生成的表的列信息， 表名 => 列信息 键值对 */
     private final Map<String, List<TableColumnMetadata>> wantGenTableColumns = new LinkedHashMap<>();
 
+    /* 想要生成的表注释, 表名 => 表注释 */
+    private final Map<String, String> wantGenTableComments = new HashMap<>();
+
     private final InformationSchemaDao informationSchemaDao;
 
     public DBContext(@Value("${generate.db.name}") String cmdDBName,
@@ -58,6 +61,7 @@ public class DBContext {
         }
 
         this.fetchTableColumns();
+        this.fetchTableComments();
 
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("\n - - 所有表的列信息已获取完毕...");
@@ -145,8 +149,33 @@ public class DBContext {
         this.wantGenTableColumns.putAll(sorted);
     }
 
+    /**
+     * 获取想要生成的表注释
+     */
+    private void fetchTableComments() {
+
+        // 分批次获取，一次性获取20张表的注释
+        var batchSize = 20;
+        var tableCount = this.wantGenTables.size();
+        for (int i = 0; i <= tableCount / batchSize; i++) {
+            var subList = this.wantGenTables.subList(
+                    i * batchSize,
+                    Math.min(i * batchSize + batchSize, this.wantGenTables.size())
+            );
+
+            this.wantGenTableComments.putAll(
+                    this.informationSchemaDao.getTableComments(this.wantGenDB, subList)
+            );
+        }
+    }
+
     @SuppressWarnings("unused")
     public Map<String, List<TableColumnMetadata>> getWantGenTableColumns() {
         return wantGenTableColumns;
+    }
+
+    @SuppressWarnings("unused")
+    public Map<String, String> getWantGenTableComments() {
+        return wantGenTableComments;
     }
 }

@@ -66,6 +66,28 @@ public class InformationSchemaDao {
                 .list();
     }
 
+    public Map<String, String> getTableComments(String dbName, Collection<String> tables) {
+
+        var rtnMap = new HashMap<String, String>();
+
+        var sql = """
+                SELECT TABLE_NAME, TABLE_COMMENT
+                FROM information_schema.TABLES
+                WHERE TABLE_SCHEMA = :dbName AND TABLE_NAME IN (:tables)
+                """;
+
+        this.jdbcClient.sql(sql)
+                .param("dbName", dbName)
+                .param("tables", tables)
+                .query(rs -> {
+                    var tableName = rs.getString("TABLE_NAME");
+                    var tableComment = rs.getString("TABLE_COMMENT");
+                    rtnMap.put(tableName, tableComment);
+                });
+
+        return rtnMap;
+    }
+
     public Map<String, List<TableColumnMetadata>> getColumns(String dbName, Collection<String> tables) {
 
         var rtnMap = new HashMap<String, List<TableColumnMetadata>>();

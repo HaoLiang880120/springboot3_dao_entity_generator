@@ -28,7 +28,10 @@ public class Application {
                 "--generate.db.user=" + cmd.getOptionValue("user"),
                 "--generate.db.password=" + cmd.getOptionValue("password"),
                 "--generate.db.name=" + cmd.getOptionValue("database"),
-                "--generate.db.tables=" + cmd.getOptionValue("tables")
+                "--generate.db.tables=" + cmd.getOptionValue("tables"),
+                "--generate.base_package=" + cmd.getOptionValue("gen-base-package"),
+                "--generate.remain_table_prefix=" + cmd.getOptionValue("gen-remain-table-prefix"),
+                "--generate.gen_output_dir=" + cmd.getOptionValue("gen-output-dir"),
         };
 
         /* 启动项目 */
