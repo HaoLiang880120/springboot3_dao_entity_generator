@@ -18,7 +18,8 @@ public class EntityFieldMetadata {
         this.fieldComment = this.genFieldComment(columnMetadata.comment());
         this.fieldName = this.genFieldName(columnMetadata.columnName(), columnMetadata.dataType());
         this.fieldJavaType = this.genFieldJavaType(columnMetadata.columnName(), columnMetadata.dataType());
-
+        this.isFieldEnumType = this.checkFieldEnumType(columnMetadata.columnName(), columnMetadata.dataType());
+        this.isFieldBooleanType = this.checkFieldBooleanType(columnMetadata.columnName(), columnMetadata.dataType());
     }
 
     /**
@@ -87,4 +88,45 @@ public class EntityFieldMetadata {
         return "String";
     }
 
+    /**
+     * 此成员变量是否是Enum类型
+     */
+    private boolean checkFieldEnumType(String columnName, String dataType) {
+        return dataType.equalsIgnoreCase("tinyint")
+                && !columnName.toLowerCase().startsWith("is_")
+                && !columnName.toLowerCase().startsWith("has_");
+    }
+
+    /**
+     * 此成员变量是否是boolean类型
+     */
+    private boolean checkFieldBooleanType(String columnName, String dataType) {
+        return dataType.equalsIgnoreCase("tinyint")
+                && (columnName.toLowerCase().startsWith("is_") || columnName.toLowerCase().startsWith("has_"));
+    }
+
+    @SuppressWarnings("unused")
+    public String getFieldComment() {
+        return fieldComment;
+    }
+
+    @SuppressWarnings("unused")
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    @SuppressWarnings("unused")
+    public String getFieldJavaType() {
+        return fieldJavaType;
+    }
+
+    @SuppressWarnings("unused")
+    public Boolean getFieldEnumType() {
+        return isFieldEnumType;
+    }
+
+    @SuppressWarnings("unused")
+    public Boolean getFieldBooleanType() {
+        return isFieldBooleanType;
+    }
 }
