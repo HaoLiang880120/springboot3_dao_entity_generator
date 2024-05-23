@@ -1,4 +1,4 @@
-package com.kryptoncell.db;
+package com.kryptoncell.gen_db;
 
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -42,6 +42,9 @@ public class DBContext {
 
     }
 
+    /**
+     * 初始化DBContext，将要生成的表以及列信息全部加载完毕
+     */
     @PostConstruct
     public void initContext() throws Exception {
         this.validateTableExists();

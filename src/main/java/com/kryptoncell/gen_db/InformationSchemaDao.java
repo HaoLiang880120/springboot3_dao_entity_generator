@@ -1,4 +1,4 @@
-package com.kryptoncell.db;
+package com.kryptoncell.gen_db;
 
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;

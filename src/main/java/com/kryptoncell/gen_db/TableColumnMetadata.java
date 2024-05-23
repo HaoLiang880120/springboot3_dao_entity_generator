@@ -1,4 +1,4 @@
-package com.kryptoncell.db;
+package com.kryptoncell.gen_db;
 
 public record TableColumnMetadata(
         String columnName,
