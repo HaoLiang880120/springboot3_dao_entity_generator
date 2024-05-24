@@ -15,6 +15,7 @@ public class EntityFieldMetadata {
     private final String fieldSetterMethodName; // setter方法名
     private final Boolean isFieldEnumType; // 成员变量是否是java的enum类型
     private final Boolean isFieldBooleanType; // 成员变量是否是java的boolean类型
+    private final String relateTableColumnName; // 关联的表的列的名字
 
     public EntityFieldMetadata(TableColumnMetadata columnMetadata) {
         this.fieldComment = this.genFieldComment(columnMetadata.comment());
@@ -24,6 +25,7 @@ public class EntityFieldMetadata {
         this.isFieldBooleanType = this.checkFieldBooleanType(columnMetadata.columnName(), columnMetadata.dataType());
         this.fieldGetterMethodName = this.genFieldGetterMethodName(this.fieldName);
         this.fieldSetterMethodName = this.genFieldSetterMethodName(this.fieldName);
+        this.relateTableColumnName = columnMetadata.columnName();
     }
 
     /**
@@ -151,5 +153,10 @@ public class EntityFieldMetadata {
     @SuppressWarnings("unused")
     public String getFieldSetterMethodName() {
         return fieldSetterMethodName;
+    }
+
+    @SuppressWarnings("unused")
+    public String getRelateTableColumnName() {
+        return relateTableColumnName;
     }
 }

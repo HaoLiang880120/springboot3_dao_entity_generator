@@ -15,8 +15,13 @@ public final class EntityMetadata {
     private final String entityComment; // entity类注释
     private final List<EntityFieldMetadata> fields; // entity所有的成员变量
     private final String entityFileName; // entity文件名
+    private final String relateTableName; // 关联的表名
+    private final Boolean hasDeletedField; // entity是否有deleted成员
 
     public EntityMetadata(String basePackage, boolean remainTablePrefix, String dbTable, String dbTableComment, List<TableColumnMetadata> dbColumns) {
+        // entity关联的表名
+        this.relateTableName = dbTable;
+
         // entity所在的包
         this.packageName = basePackage + ".entity";
 
@@ -57,6 +62,11 @@ public final class EntityMetadata {
                 this.importStatements.add("import java.time.LocalDate;");
             }
         }
+
+        // 是否有deleted成员变量
+        this.hasDeletedField = this.fields
+                .stream()
+                .anyMatch(fd -> "deleted".equals(fd.getFieldName()) || "delete".equals(fd.getFieldName()));
 
         // 文件名
         this.entityFileName = this.entityClassName + ".java";
@@ -233,5 +243,20 @@ public final class EntityMetadata {
     @SuppressWarnings("unused")
     public String getEntityFileName() {
         return entityFileName;
+    }
+
+    @SuppressWarnings("unused")
+    public String getEntityComment() {
+        return entityComment;
+    }
+
+    @SuppressWarnings("unused")
+    public String getRelateTableName() {
+        return relateTableName;
+    }
+
+    @SuppressWarnings("unused")
+    public Boolean getHasDeletedField() {
+        return hasDeletedField;
     }
 }
