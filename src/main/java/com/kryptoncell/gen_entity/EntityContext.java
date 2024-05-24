@@ -1,18 +1,23 @@
 package com.kryptoncell.gen_entity;
 
 import com.kryptoncell.gen_db.TableColumnMetadata;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @Component
 public class EntityContext {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(EntityContext.class);
 
     private final String basePackage;
     private final Boolean remainEntityNameTablePrefix;
@@ -57,12 +62,25 @@ public class EntityContext {
 
     public void writeEntityFiles() throws Exception {
         for (var entityMetadata : entityMetadataList) {
-            try(var writer = new FileWriter(outputDir + File.separator + entityMetadata.getEntityFileName(), true)) {
+            try(var writer = new FileWriter(this.outputDir + File.separator + entityMetadata.getEntityFileName(), StandardCharsets.UTF_8, true)) {
                 writer.write(entityMetadata.toFileWriteString());
                 writer.flush();
             } catch (IOException ex) {
                 throw new Exception(ex);
             }
         }
+
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info(
+                    " - - 共 {} 个 entity 文件生成完毕, 位于目录: {}",
+                    entityMetadataList.size(),
+                    this.outputDir + File.separator
+            );
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public List<EntityMetadata> getEntityMetadataList() {
+        return entityMetadataList;
     }
 }
