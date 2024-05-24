@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
 
+import static java.util.Objects.nonNull;
+
 @Configuration(proxyBeanMethods = false)
 public class AppConfig {
 
@@ -25,7 +27,9 @@ public class AppConfig {
         hikariConfig.setMinimumIdle(0);
         hikariConfig.setPoolName("HikariCP");
         hikariConfig.setUsername(dbUsername);
-        hikariConfig.setPassword(dbPassword);
+        if (nonNull(dbPassword) && !dbPassword.isEmpty() && !"null".equalsIgnoreCase(dbPassword)) {
+            hikariConfig.setPassword(dbPassword);
+        }
         hikariConfig.setJdbcUrl("jdbc:mysql://" + dbHost + ":" + dbPort + "/information_schema");
 
         return new HikariDataSource(hikariConfig);

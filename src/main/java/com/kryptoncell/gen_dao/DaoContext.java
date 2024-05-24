@@ -56,7 +56,7 @@ public class DaoContext {
         }
 
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info(" - - 共 1 个 _BaseDao.java 文件生成完毕, 位于目录: {}", this.daoFileDir + File.separator);
+            LOGGER.info("\n - - 共 1 个 _BaseDao.java 文件生成完毕, 位于目录: {}", this.daoFileDir + File.separator);
         }
     }
 
@@ -72,7 +72,7 @@ public class DaoContext {
 
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info(
-                    " - - 共 {} 个 dao 文件生成完毕, 位于目录: {}",
+                    "\n - - 共 {} 个 dao 文件生成完毕, 位于目录: {}",
                     this.daoMetadataList.size(),
                     this.daoFileDir + File.separator
             );

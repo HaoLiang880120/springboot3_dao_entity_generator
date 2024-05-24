@@ -72,7 +72,7 @@ public class EntityContext {
 
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info(
-                    " - - 共 {} 个 entity 文件生成完毕, 位于目录: {}",
+                    "\n - - 共 {} 个 entity 文件生成完毕, 位于目录: {}",
                     entityMetadataList.size(),
                     this.outputDir + File.separator
             );
