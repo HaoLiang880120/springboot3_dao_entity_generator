@@ -72,7 +72,7 @@ public final class EntityMetadata {
         this.entityFileName = this.entityClassName + ".java";
 
         // entity类注释
-        this.entityComment = "/**\n * 对应`" + dbTable + "`表\n * " + dbTableComment + "\n */";
+        this.entityComment = "/**\n * 对应 `" + dbTable + "` 表\n * " + dbTableComment + "\n */";
     }
 
     /**
