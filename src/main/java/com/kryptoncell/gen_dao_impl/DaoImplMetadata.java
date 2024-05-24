@@ -18,7 +18,7 @@ public final class DaoImplMetadata {
     public DaoImplMetadata(String basePackage, EntityMetadata relateEntityMetadata) {
         // package name
         this.packageName = basePackage + ".dao.impl";
-        this.packageStatement = "import " + this.packageName + ";";
+        this.packageStatement = "package " + this.packageName + ";";
 
         var entityName = relateEntityMetadata.getEntityClassName();
         // class name
@@ -204,7 +204,7 @@ public final class DaoImplMetadata {
             sb.append("\t@Override\n");
             sb.append("\t@SuppressWarnings(\"Duplicates\")\n");
             sb.append("\tpublic int deleteByIds(Long id) {\n");
-            sb.append("\t\tvar sql = \"\"\"");
+            sb.append("\t\tvar sql = \"\"\"\n");
             sb.append("\t\t\t\tUPDATE `").append(this.relateEntityMetadata.getRelateTableName()).append("`\n");
             sb.append("\t\t\t\tSET `is_deleted` = :deleted, `update_time` = :updateTime\n");
             sb.append("\t\t\t\tWHERE `id` IN (:ids)\n");

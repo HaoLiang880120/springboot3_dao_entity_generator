@@ -9,7 +9,7 @@ public final class DaoMetadata {
     private final String entityPackageName;
 
     public DaoMetadata(String basePackage, String entityClassName) {
-        this.packageStatement = "import " + basePackage + ".dao" + ";";
+        this.packageStatement = "package " + basePackage + ".dao" + ";";
 
         this.className = entityClassName.substring(0, entityClassName.length() - "Entity".length()) + "Dao";
         this.fileName = this.className + ".java";

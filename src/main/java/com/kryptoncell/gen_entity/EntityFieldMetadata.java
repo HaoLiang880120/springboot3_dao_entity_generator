@@ -18,7 +18,7 @@ public class EntityFieldMetadata {
     private final String relateTableColumnName; // 关联的表的列的名字
 
     public EntityFieldMetadata(TableColumnMetadata columnMetadata) {
-        this.fieldComment = this.genFieldComment(columnMetadata.comment());
+        this.fieldComment = this.genFieldComment(columnMetadata.comment(), columnMetadata.columnName());
         this.fieldName = this.genFieldName(columnMetadata.columnName(), columnMetadata.dataType());
         this.fieldJavaType = this.genFieldJavaType(columnMetadata.columnName(), columnMetadata.dataType());
         this.isFieldEnumType = this.checkFieldEnumType(columnMetadata.columnName(), columnMetadata.dataType());
@@ -31,8 +31,8 @@ public class EntityFieldMetadata {
     /**
      * 生成列注释
      */
-    private String genFieldComment(String columnComment) {
-        return "// " + columnComment;
+    private String genFieldComment(String columnComment, String columnName) {
+        return "// `" + columnName + "` " + columnComment;
     }
 
     /**
