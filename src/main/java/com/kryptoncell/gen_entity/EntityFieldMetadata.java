@@ -22,8 +22,8 @@ public class EntityFieldMetadata {
         this.fieldJavaType = this.genFieldJavaType(columnMetadata.columnName(), columnMetadata.dataType());
         this.isFieldEnumType = this.checkFieldEnumType(columnMetadata.columnName(), columnMetadata.dataType());
         this.isFieldBooleanType = this.checkFieldBooleanType(columnMetadata.columnName(), columnMetadata.dataType());
-        this.fieldGetterMethodName = this.genFieldGetterMethodName(columnMetadata.columnName());
-        this.fieldSetterMethodName = this.genFieldSetterMethodName(columnMetadata.columnName());
+        this.fieldGetterMethodName = this.genFieldGetterMethodName(this.fieldName);
+        this.fieldSetterMethodName = this.genFieldSetterMethodName(this.fieldName);
     }
 
     /**
@@ -56,7 +56,8 @@ public class EntityFieldMetadata {
             if (columnName.toLowerCase().startsWith("is_") || columnName.toLowerCase().startsWith("has_")) {
                 return "Boolean";
             } else {
-                return this.genFieldName(columnName, dataType) + "Enum";
+                var fieldName = this.genFieldName(columnName, dataType);
+                return fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1) + "Enum";
             }
         }
 
@@ -109,12 +110,12 @@ public class EntityFieldMetadata {
                 && (columnName.toLowerCase().startsWith("is_") || columnName.toLowerCase().startsWith("has_"));
     }
 
-    private String genFieldGetterMethodName(String columnName) {
-        return "get" + StringHelper.toCamelName(columnName, false);
+    private String genFieldGetterMethodName(String fieldName) {
+        return "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
     }
 
-    private String genFieldSetterMethodName(String columnName) {
-        return "set" + StringHelper.toCamelName(columnName, false);
+    private String genFieldSetterMethodName(String fieldName) {
+        return "set" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
     }
 
     @SuppressWarnings("unused")

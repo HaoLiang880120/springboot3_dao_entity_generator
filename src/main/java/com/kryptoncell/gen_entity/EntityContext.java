@@ -31,7 +31,7 @@ public class EntityContext {
         }
         this.outputDir = outputDir + basePackage.replace('.', File.separatorChar) + File.separator + "entity";
         // 如果目录不存在，则新建目录
-        var dir = new File(outputDir);
+        var dir = new File(this.outputDir);
         if (!dir.exists()) {
             if (!dir.mkdirs()) {
                 throw new Exception(this.outputDir + " 创建目录失败.");
@@ -57,7 +57,7 @@ public class EntityContext {
 
     public void writeEntityFiles() throws Exception {
         for (var entityMetadata : entityMetadataList) {
-            try(var writer = new FileWriter(new File(outputDir + File.separator + entityMetadata.getEntityFileName()), true)) {
+            try(var writer = new FileWriter(outputDir + File.separator + entityMetadata.getEntityFileName(), true)) {
                 writer.write(entityMetadata.toFileWriteString());
                 writer.flush();
             } catch (IOException ex) {

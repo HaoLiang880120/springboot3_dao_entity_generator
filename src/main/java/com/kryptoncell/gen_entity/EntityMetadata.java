@@ -72,7 +72,7 @@ public final class EntityMetadata {
         var sb = new StringBuilder();
 
         // package 语句
-        sb.append(this.packageName).append("\n\n");
+        sb.append(this.packageStatement).append("\n\n");
 
         // import语句
         for (var ip : this.importStatements) {
@@ -84,14 +84,14 @@ public final class EntityMetadata {
         sb.append(this.entityComment).append("\n");
 
         // 类定义
-        sb.append("public final class ").append(this.entityClassName).append(" {\n\n");
+        sb.append("public final class ").append(this.entityClassName).append(" {\n");
 
         // 类成员变量
         for (var fd : this.fields) {
             // 成员注释
-            sb.append(fd.getFieldComment()).append("\n");
+            sb.append("\t").append(fd.getFieldComment()).append("\n");
             // 成员声明
-            sb.append("\rprivate ").append(fd.getFieldJavaType()).append(" ").append(fd.getFieldName()).append(";\n");
+            sb.append("\tprivate ").append(fd.getFieldJavaType()).append(" ").append(fd.getFieldName()).append(";\n");
         }
         sb.append("\n");
 
@@ -102,70 +102,70 @@ public final class EntityMetadata {
             }
 
             // 枚举类声明
-            sb.append("\rpublic enum ").append(fd.getFieldJavaType()).append(" {\n");
+            sb.append("\tpublic enum ").append(fd.getFieldJavaType()).append(" {\n");
             // 枚举变量
-            sb.append("\r\rENUM_NULL(null),\n");
-            sb.append("\r\rENUM_ONE(1),\n");
-            sb.append("\r\rENUM_TWO(2),\n");
-            sb.append("\r\rENUM_THREE(3),\n");
-            sb.append("\r\rENUM_FOUR(4);\n");
+            sb.append("\t\tENUM_NULL(null),\n");
+            sb.append("\t\tENUM_ONE(1),\n");
+            sb.append("\t\tENUM_TWO(2),\n");
+            sb.append("\t\tENUM_THREE(3),\n");
+            sb.append("\t\tENUM_FOUR(4);\n\n");
 
             // 枚举类成员变量
-            sb.append("\r\rprivate final Integer value;\n\n");
+            sb.append("\t\tprivate final Integer value;\n\n");
 
             // 枚举构造方法
-            sb.append("\r\r").append(fd.getFieldJavaType()).append("(").append("Integer value").append(") {\n");
-            sb.append("\r\r\rthis.value = value;\n");
-            sb.append("\r\r}\n\n");
+            sb.append("\t\t").append(fd.getFieldJavaType()).append("(").append("Integer value").append(") {\n");
+            sb.append("\t\t\tthis.value = value;\n");
+            sb.append("\t\t}\n\n");
 
             // 枚举的getter值方法
-            sb.append("\r\r@JsonValue\n");
-            sb.append("\r\rpublic Integer getValue() {\n");
-            sb.append("\r\r\rreturn this.value;\n");
-            sb.append("\r\r}\n\n");
+            sb.append("\t\t@JsonValue\n");
+            sb.append("\t\tpublic Integer getValue() {\n");
+            sb.append("\t\t\treturn this.value;\n");
+            sb.append("\t\t}\n\n");
 
             // 枚举的getter枚举值方法
-            sb.append("\r\r@JsonCreator\n");
-            sb.append("\r\rpublic static ").append(fd.getFieldJavaType()).append(" getByValue(Integer wantValue) {\n");
-            sb.append("\r\r\rreturn Arrays.stream(StatusEnum.values())\n");
-            sb.append("\r\r\r\r\r.filter(e -> Objects.equals(e.getValue(), wantValue))\n");
-            sb.append("\r\r\r\r\r.findFirst()\n");
-            sb.append("\r\r\r\r\r.orElseThrow(\n");
-            sb.append("\r\r\r\r\r\r\r() -> new RuntimeException(String.format(\"").append(this.entityClassName).append(".").append(fd.getFieldJavaType()).append("(%d)枚举值不存在\", wantValue))\n");
-            sb.append("\r\r\r\r\r);\n");
-            sb.append("\r\r}\n");
+            sb.append("\t\t@JsonCreator\n");
+            sb.append("\t\tpublic static ").append(fd.getFieldJavaType()).append(" getByValue(Integer wantValue) {\n");
+            sb.append("\t\t\treturn Arrays.stream(").append(fd.getFieldJavaType()).append(".values())\n");
+            sb.append("\t\t\t\t\t.filter(e -> Objects.equals(e.getValue(), wantValue))\n");
+            sb.append("\t\t\t\t\t.findFirst()\n");
+            sb.append("\t\t\t\t\t.orElseThrow(\n");
+            sb.append("\t\t\t\t\t\t\t() -> new RuntimeException(String.format(\"").append(this.entityClassName).append(".").append(fd.getFieldJavaType()).append("(%d)枚举值不存在\", wantValue))\n");
+            sb.append("\t\t\t\t\t);\n");
+            sb.append("\t\t}\n");
 
             // 枚举类声明结束
-            sb.append("\r}\n\n");
+            sb.append("\t}\n\n");
         }
 
         // 所有的getter和setter方法
         for (var fd : this.fields) {
             // getter方法
-            sb.append("\r@SuppressWarnings(\"unused\")\n");
-            sb.append("\rpublic ").append(fd.getFieldJavaType()).append(" get").append(fd.getFieldGetterMethodName()).append("() {\n");
-            sb.append("\r\rreturn ").append(fd.getFieldName()).append(";\n");
-            sb.append("\r}\n\n");
+            sb.append("\t@SuppressWarnings(\"unused\")\n");
+            sb.append("\tpublic ").append(fd.getFieldJavaType()).append(" ").append(fd.getFieldGetterMethodName()).append("() {\n");
+            sb.append("\t\treturn ").append(fd.getFieldName()).append(";\n");
+            sb.append("\t}\n\n");
 
             // setter方法
-            sb.append("\r@SuppressWarnings(\"unused, UnusedReturnValue\")\n");
-            sb.append("\rpublic ").append(this.entityClassName).append(" ").append(fd.getFieldSetterMethodName()).append("(").append(fd.getFieldJavaType()).append(" ").append(fd.getFieldName()).append(") {\n");
-            sb.append("\r\rthis.").append(fd.getFieldName()).append(" = ").append(fd.getFieldName()).append(";\n");
-            sb.append("\r\rreturn this;\n");
-            sb.append("\r}\n\n");
+            sb.append("\t@SuppressWarnings(\"unused, UnusedReturnValue\")\n");
+            sb.append("\tpublic ").append(this.entityClassName).append(" ").append(fd.getFieldSetterMethodName()).append("(").append(fd.getFieldJavaType()).append(" ").append(fd.getFieldName()).append(") {\n");
+            sb.append("\t\tthis.").append(fd.getFieldName()).append(" = ").append(fd.getFieldName()).append(";\n");
+            sb.append("\t\treturn this;\n");
+            sb.append("\t}\n\n");
         }
 
         // equals()方法
-        sb.append("\r@Override\n");
-        sb.append("\rpublic boolean equals(Object o) {\n");
-        sb.append("\r\rif (this == o) {\n");
-        sb.append("\r\r\rreturn true;;\n");
-        sb.append("\r\r}\n");
-        sb.append("\r\rif (o == null || getClass() != o.getClass()) {\n");
-        sb.append("\r\r\rreturn false;\n");
-        sb.append("\r\r}\n");
-        sb.append("\r\rvar that = ").append("(").append(this.entityClassName).append(") o;\n");
-        sb.append("\r\rreturn ")
+        sb.append("\t@Override\n");
+        sb.append("\tpublic boolean equals(Object o) {\n");
+        sb.append("\t\tif (this == o) {\n");
+        sb.append("\t\t\treturn true;\n");
+        sb.append("\t\t}\n");
+        sb.append("\t\tif (o == null || getClass() != o.getClass()) {\n");
+        sb.append("\t\t\treturn false;\n");
+        sb.append("\t\t}\n");
+        sb.append("\t\tvar that = ").append("(").append(this.entityClassName).append(") o;\n");
+        sb.append("\t\treturn ")
                 .append(
                         this.fields.stream()
                                 .map(e -> "Objects.equals(" + e.getFieldName() + ", that." + e.getFieldName() + ")")
@@ -173,31 +173,31 @@ public final class EntityMetadata {
                 )
                 .append(";\n");
 
-        sb.append("\r}\n\n");
+        sb.append("\t}\n\n");
 
         // hashCode()方法
-        sb.append("\r@Override\n");
-        sb.append("\rpublic int hashCode() {\n");
-        sb.append("\r\rreturn Objects.hash(")
+        sb.append("\t@Override\n");
+        sb.append("\tpublic int hashCode() {\n");
+        sb.append("\t\treturn Objects.hash(")
                 .append(
                         this.fields.stream()
                                 .map(EntityFieldMetadata::getFieldName)
                                 .collect(Collectors.joining(", "))
                 )
                 .append(");\n");
-        sb.append("\r}\n\n");
+        sb.append("\t}\n\n");
 
         // toString()方法
-        sb.append("\r@Override\n");
-        sb.append("\rpublic String toString() {\n");
-        sb.append("\r\rreturn ").append(this.getEntityClassName()).append("{\" +\n");
+        sb.append("\t@Override\n");
+        sb.append("\tpublic String toString() {\n");
+        sb.append("\t\treturn \"").append(this.getEntityClassName()).append("{\" +\n\t\t\t\t");
         sb.append(
                 this.fields.stream()
                         .map(e -> "\"" + e.getFieldName() + "=\" + " + e.getFieldName())
-                        .collect(Collectors.joining(" +\n\", \" + "))
+                        .collect(Collectors.joining(" +\n\t\t\t\t\", \" + "))
                 )
-                .append(" +\n\"}\";");
-        sb.append("\r}\n\n");
+                .append(" +\n\t\t\t\t\"}\";\n");
+        sb.append("\t}\n\n");
 
         // 类定义结束
         sb.append("}\n");
