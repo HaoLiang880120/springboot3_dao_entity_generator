@@ -1,6 +1,7 @@
 package com.kryptoncell.runner;
 
 import com.kryptoncell.gen_dao.DaoContext;
+import com.kryptoncell.gen_dao_impl.DaoImplContext;
 import com.kryptoncell.gen_db.DBContext;
 import com.kryptoncell.gen_entity.EntityContext;
 import org.springframework.boot.CommandLineRunner;
@@ -12,11 +13,16 @@ public class Runner implements CommandLineRunner {
     private final DBContext dbContext;
     private final EntityContext entityContext;
     private final DaoContext daoContext;
+    private final DaoImplContext daoImplContext;
 
-    public Runner(DBContext dbContext, EntityContext entityContext, DaoContext daoContext) {
+    public Runner(DBContext dbContext,
+                  EntityContext entityContext,
+                  DaoContext daoContext,
+                  DaoImplContext daoImplContext) {
         this.dbContext = dbContext;
         this.entityContext = entityContext;
         this.daoContext = daoContext;
+        this.daoImplContext = daoImplContext;
     }
 
     @Override
@@ -36,6 +42,10 @@ public class Runner implements CommandLineRunner {
         this.daoContext.writeBaseDaoFile();
         this.daoContext.writeDaoFiles();
 
-
+        /* 生成daoImpl文件 */
+        this.daoImplContext.init(
+                this.entityContext.getEntityMetadataList()
+        );
+        this.daoImplContext.writeDaoImplFiles();
     }
 }

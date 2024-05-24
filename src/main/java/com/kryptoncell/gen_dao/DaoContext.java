@@ -31,8 +31,8 @@ public class DaoContext {
         if (!outputDir.endsWith(File.separator)) {
             outputDir = outputDir + File.separator;
         }
-        this.daoFileDir = outputDir + basePackage.replace('.', File.separatorChar) + File.separator + "dao";
-        var daoDir = new File(daoFileDir);
+        this.daoFileDir = outputDir + basePackage.replace(".", File.separator) + File.separator + "dao";
+        var daoDir = new File(this.daoFileDir);
         if (!daoDir.exists()) {
             if (!daoDir.mkdirs()) {
                 throw new Exception("Unable to create directory " + daoFileDir);
