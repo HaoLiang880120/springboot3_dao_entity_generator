@@ -1,9 +1,9 @@
-package com.kryptoncell.runner;
+package individual.hl_so2.runner;
 
-import com.kryptoncell.gen_dao.DaoContext;
-import com.kryptoncell.gen_dao_impl.DaoImplContext;
-import com.kryptoncell.gen_db.DBContext;
-import com.kryptoncell.gen_entity.EntityContext;
+import individual.hl_so2.gen_dao.DaoContext;
+import individual.hl_so2.gen_dao_impl.DaoImplContext;
+import individual.hl_so2.gen_db.DBContext;
+import individual.hl_so2.gen_entity.EntityContext;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

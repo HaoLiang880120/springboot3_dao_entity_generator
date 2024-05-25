@@ -1,4 +1,4 @@
-package com.kryptoncell.utils;
+package individual.hl_so2.utils;
 
 import org.apache.commons.cli.*;
 

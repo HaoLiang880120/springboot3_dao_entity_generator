@@ -1,4 +1,4 @@
-package com.kryptoncell.config;
+package individual.hl_so2.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

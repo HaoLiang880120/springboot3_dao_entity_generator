@@ -1,7 +1,7 @@
-package com.kryptoncell.gen_entity;
+package individual.hl_so2.gen_entity;
 
-import com.kryptoncell.gen_db.TableColumnMetadata;
-import com.kryptoncell.utils.StringHelper;
+import individual.hl_so2.gen_db.TableColumnMetadata;
+import individual.hl_so2.utils.StringHelper;
 
 /**
  * entity的成员变量

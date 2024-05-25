@@ -1,6 +1,6 @@
-package com.kryptoncell.gen_dao;
+package individual.hl_so2.gen_dao;
 
-import com.kryptoncell.gen_entity.EntityMetadata;
+import individual.hl_so2.gen_entity.EntityMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

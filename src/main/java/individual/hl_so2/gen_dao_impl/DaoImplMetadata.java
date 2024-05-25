@@ -1,6 +1,6 @@
-package com.kryptoncell.gen_dao_impl;
+package individual.hl_so2.gen_dao_impl;
 
-import com.kryptoncell.gen_entity.EntityMetadata;
+import individual.hl_so2.gen_entity.EntityMetadata;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package com.kryptoncell.gen_dao;
+package individual.hl_so2.gen_dao;
 
 public final class DaoMetadata {
 

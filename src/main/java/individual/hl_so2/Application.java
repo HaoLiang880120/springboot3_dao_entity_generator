@@ -1,6 +1,6 @@
-package com.kryptoncell;
+package individual.hl_so2;
 
-import com.kryptoncell.utils.CommandHelper;
+import individual.hl_so2.utils.CommandHelper;
 import org.apache.commons.cli.DefaultParser;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;

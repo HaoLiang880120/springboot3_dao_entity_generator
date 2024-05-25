@@ -1,6 +1,6 @@
-package com.kryptoncell.gen_entity;
+package individual.hl_so2.gen_entity;
 
-import com.kryptoncell.gen_db.TableColumnMetadata;
+import individual.hl_so2.gen_db.TableColumnMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
