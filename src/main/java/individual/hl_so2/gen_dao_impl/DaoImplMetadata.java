@@ -43,6 +43,10 @@ public final class DaoImplMetadata {
         this.importStatements.add("import java.util.*;");
         this.importStatements.add("import static java.util.Objects.nonNull;");
         for (var entityField : relateEntityMetadata.getFields()) {
+            if (entityField.getFieldEnumType()) {
+                this.importStatements.add("import static java.util.Objects.requireNonNull;");
+            }
+
             if ("LocalDate".equals(entityField.getFieldJavaType())) {
                 this.importStatements.add("import java.time.LocalDate;");
                 continue;
@@ -126,7 +130,7 @@ public final class DaoImplMetadata {
                 continue;
             }
             if (entityField.getFieldEnumType()) {
-                sb.append("\t\tparamMap.put(\"").append(entityField.getRelateTableColumnName()).append("\", entity.").append(entityField.getFieldGetterMethodName()).append("().getValue());\n");
+                sb.append("\t\tparamMap.put(\"").append(entityField.getRelateTableColumnName()).append("\", requireNonNull(entity.").append(entityField.getFieldGetterMethodName()).append("()).getValue());\n");
             } else {
                 sb.append("\t\tparamMap.put(\"").append(entityField.getRelateTableColumnName()).append("\", entity.").append(entityField.getFieldGetterMethodName()).append("());\n");
             }
