@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'individual.hl_so2'
-version = '1.5'
+version = '1.6'
 
 repositories {
     maven { url 'https://maven.aliyun.com/repository/central' }

@@ -102,7 +102,7 @@ public final class DaoImplMetadata {
                 // 如果entity的成员变量是枚举类型
                 sb.append("\t\t\t\t.").append(entityField.getFieldSetterMethodName()).append("(\n");
                 sb.append("\t\t\t\t\t\t").append(this.relateEntityMetadata.getEntityClassName()).append(".").append(entityField.getFieldJavaType()).append(".getByValue(\n");
-                sb.append("\t\t\t\t\t\t\t\trs.getObject(\"").append(entityField.getRelateTableColumnName()).append("\", ").append(entityField.getFieldJavaType()).append(".class)\n");
+                sb.append("\t\t\t\t\t\t\t\trs.getObject(\"").append(entityField.getRelateTableColumnName()).append("\", ").append("Integer").append(".class)\n");
                 sb.append("\t\t\t\t\t\t)\n");
                 sb.append("\t\t\t\t)");
             } else {
@@ -207,7 +207,7 @@ public final class DaoImplMetadata {
             // deleteByIds() 方法
             sb.append("\t@Override\n");
             sb.append("\t@SuppressWarnings(\"Duplicates\")\n");
-            sb.append("\tpublic int deleteByIds(Long id) {\n");
+            sb.append("\tpublic int deleteByIds(Collection<Long> ids) {\n");
             sb.append("\t\tvar sql = \"\"\"\n");
             sb.append("\t\t\t\tUPDATE `").append(this.relateEntityMetadata.getRelateTableName()).append("`\n");
             sb.append("\t\t\t\tSET `is_deleted` = :deleted, `update_time` = :updateTime\n");
